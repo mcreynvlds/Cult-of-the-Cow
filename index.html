@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#1a0b14">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Cult of the Cow">
+<meta name="description" content="Start a cult. Gather the herd. Defeat the Butcher Bishops. A mooving parody.">
+<title>Cult of the Cow</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="mode-none">
+<canvas id="game"></canvas>
+
+<div id="hud">
+  <div id="hud-top">
+    <div id="hud-left">
+      <div id="hearts"></div>
+      <div id="clock"><span id="sun">☀️</span><span id="day">Day 1</span></div>
+    </div>
+    <div id="hud-res">
+      <span class="res" title="Grass (currency)">🌿<b id="r-grass">0</b></span>
+      <span class="res" title="Hay (food)">🌾<b id="r-hay">0</b></span>
+      <span class="res" title="Devotion">✨<b id="r-dev">0</b></span>
+    </div>
+    <button id="btn-pause" aria-label="Menu">☰</button>
+  </div>
+  <div id="faithwrap"><span>🙏 Cult Faith</span><div id="faith"><div id="faithfill"></div></div><span id="followercount">0</span></div>
+</div>
+
+<div id="controls">
+  <div id="joyzone"></div>
+  <div id="joy"><div id="joyknob"></div></div>
+  <div id="buttons">
+    <button id="btn-action" class="btn act" aria-label="Interact"><span class="lbl">Interact</span></button>
+    <button id="btn-special" class="btn sm" aria-label="Holy Moo"><span class="ico">🐮</span></button>
+    <button id="btn-dodge" class="btn sm" aria-label="Dodge"><span class="ico">💨</span></button>
+    <button id="btn-attack" class="btn big" aria-label="Attack"><span class="ico">🔔</span></button>
+  </div>
+</div>
+
+<div id="bossbar" class="hidden"><div class="bname"></div><div class="bbar"><div class="bfill"></div></div></div>
+
+<div id="dialog" class="hidden">
+  <div class="who"></div>
+  <div class="text"></div>
+  <div class="hint">tap ▸</div>
+</div>
+
+<div id="menu" class="hidden">
+  <div class="panel">
+    <button class="close" aria-label="Close">✕</button>
+    <h2></h2>
+    <div class="body"></div>
+    <div class="opts"></div>
+  </div>
+</div>
+
+<div id="toasts"></div>
+
+<div id="title">
+  <div class="tinner">
+    <div class="sigil">⛧</div>
+    <h1>CULT <small>of the</small> COW</h1>
+    <p class="tag">A Mooving Parody</p>
+    <div class="tbtns">
+      <button id="t-continue" class="tbtn hidden">Continue</button>
+      <button id="t-new" class="tbtn">Start a Cult</button>
+      <button id="t-help" class="tbtn ghost">How to Play</button>
+      <button id="t-sound" class="tbtn ghost">Sound: On</button>
+    </div>
+    <p class="fine">Not affiliated with any lambs. No cows were harmed.<br>Several butchers were.</p>
+  </div>
+</div>
+
+<div id="fade"></div>
+
+<script src="js/util.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/input.js"></script>
+<script src="js/data.js"></script>
+<script src="js/art.js"></script>
+<script src="js/state.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/base.js"></script>
+<script src="js/crusade.js"></script>
+<script src="js/void.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
