@@ -9,6 +9,42 @@ It's a mobile-first browser game that parodies *Cult of the Lamb*. It's plain HT
 - **Locally:** open `index.html` in any modern browser, or serve the folder (`npx http-server .`) and open it on your phone over your LAN.
 - **Install it:** when it's served over HTTPS (GitHub Pages works), use *Add to Home Screen*. It runs fullscreen and works offline through a service worker.
 
+## 📱 The App (Android & iOS)
+
+The game ships as a real native app built with [Capacitor](https://capacitorjs.com). The `android/` and `ios/` folders are full native projects. In the app you get:
+
+- Fullscreen play with the system bars hidden, and the screen stays awake while you play.
+- Haptic feedback on hits, damage, boss slams and the Holy Moo (you can turn it off in the ☰ menu).
+- The Android back button closes dialogs or pauses the game.
+- The game autosaves and pauses when you switch away from the app.
+- A custom app icon, adaptive icon and splash screen.
+
+### Get the Android app (no tools needed)
+
+Every push builds an APK with GitHub Actions (`.github/workflows/android.yml`).
+
+1. On your phone, open this repo's **Releases** page and find **"Cult of the Cow (latest Android build)"**.
+2. Download `CultOfTheCow.apk` and open it. Allow installs from this source when Android asks.
+
+The same APK is also attached to each workflow run as an artifact.
+
+**Google Play:** add these repo secrets and CI will also produce a signed `CultOfTheCow-release.aab` you can upload to the Play Console:
+- `ANDROID_KEYSTORE_BASE64`: your `.jks` file, base64-encoded
+- `ANDROID_KEYSTORE_PASSWORD`
+- `ANDROID_KEY_ALIAS`
+- `ANDROID_KEY_PASSWORD`
+
+### Build it yourself
+
+```bash
+npm install
+npm run apk        # Android debug APK → android/app/build/outputs/apk/debug/ (needs Android SDK + JDK 21)
+npm run android    # open the project in Android Studio
+npm run ios        # open the project in Xcode (Mac only); press ▶ to run it on your iPhone
+```
+
+After changing the game code, run `npm run sync` to copy it into the native projects. iOS needs a Mac with Xcode, plus an Apple ID to run on your own device, or a paid developer account to ship on the App Store. The `iOS app` workflow can be run by hand to confirm the Xcode project compiles.
+
 ### Controls
 
 | | Touch | Keyboard |
@@ -51,9 +87,13 @@ js/ui.js              Dialog/typewriter, menus, toasts, HUD
 js/base.js            The cult: followers AI, simulation, buildings, rituals
 js/crusade.js         Combat rooms, enemy AI, boss patterns, run flow
 js/void.js            Cutscenes with The One Who Grills
+js/native.js          Native app bridge (haptics, back button, background pause)
 js/main.js            Boot, scene manager, game loop, title & pause
 sw.js                 Offline cache
 manifest.webmanifest  PWA manifest
+capacitor.config.json Native app config (app id com.cultofthecow.app)
+android/, ios/        Native Capacitor projects
+scripts/build-web.mjs Copies the game into www/ for the native apps
 ```
 
 Progress autosaves to `localStorage`.

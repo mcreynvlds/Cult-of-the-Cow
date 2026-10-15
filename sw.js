@@ -1,9 +1,9 @@
 // Offline cache so the game works as an installed app with no connection.
-const CACHE = 'cult-of-the-cow-v1';
+const CACHE = 'cult-of-the-cow-v2';
 const ASSETS = [
   './', 'index.html', 'css/style.css', 'manifest.webmanifest',
   'icons/icon.svg', 'icons/icon-192.png', 'icons/icon-512.png',
-  'js/util.js', 'js/audio.js', 'js/input.js', 'js/data.js', 'js/art.js', 'js/state.js',
+  'js/util.js', 'js/audio.js', 'js/input.js', 'js/data.js', 'js/art.js', 'js/state.js', 'js/native.js',
   'js/ui.js', 'js/base.js', 'js/crusade.js', 'js/void.js', 'js/main.js',
 ];
 

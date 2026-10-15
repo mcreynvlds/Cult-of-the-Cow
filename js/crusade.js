@@ -279,6 +279,7 @@ const Crusade = {
       if (inArc(pr, pr.r)) {
         pr.dead = true;
         p.fervor = Math.min(100, p.fervor + 3);
+        Native.haptic('light');
         this.burst(pr.x, pr.y, '#fff2b0', 6, 120);
         Sfx.bell(0.1);
       }
@@ -291,6 +292,7 @@ const Crusade = {
     const R = 135;
     const dmg = 3 + 1.5 * S.upgrades.fervor + S.upgrades.damage * 0.5;
     Sfx.holyMoo();
+    Native.haptic('heavy');
     Game.shake = 12;
     this.hitstop = 0.06;
     this.fx.push({ kind: 'ring', x: p.x, y: p.y - 10, t: 0, dur: 0.5, R });
@@ -312,6 +314,7 @@ const Crusade = {
     if (!noFervor) this.player.fervor = Math.min(100, this.player.fervor + 7 + 3 * S.upgrades.fervor);
     this.burst(e.x, e.y - 12, '#c8283a', 6, 150);
     Sfx.hit();
+    Native.haptic('light');
     this.hitstop = Math.max(this.hitstop, 0.035);
     Game.shake = Math.max(Game.shake, 3);
     if (e.hp <= 0) this.killEnemy(e);
@@ -350,6 +353,7 @@ const Crusade = {
     Game.shake = 9;
     this.hitstop = 0.08;
     Sfx.hurt();
+    Native.haptic('heavy');
     this.burst(p.x, p.y - 14, '#f6f0e6', 10, 180);
     if (src) { const a = angTo(src, p); p.vx = Math.cos(a) * 260; p.vy = Math.sin(a) * 260; }
     if (p.hp <= 0) this.die();
@@ -594,7 +598,7 @@ const Crusade = {
           b.z = Math.sin(k * Math.PI) * 120;
           if (b.st <= 0) {
             b.z = 0; b.x = b.tx; b.y = b.ty;
-            Sfx.slam(); Game.shake = 12;
+            Sfx.slam(); Game.shake = 12; Native.haptic('medium');
             this.fx.push({ kind: 'ring', x: b.x, y: b.y - 5, t: 0, dur: 0.45, R: 70, col: 'rgba(255,200,120,.85)' });
             if (dist(b, p) < 70) this.hurtPlayer(b);
             this.ring(b, enraged ? 14 : 10, 115);
@@ -645,7 +649,7 @@ const Crusade = {
       this.slow = 0.35;
       this.enemies.forEach((e) => this.burst(e.x, e.y - 10, '#7a1424', 8, 150));
       this.enemies = []; this.proj = [];
-      Sfx.roar(); Game.shake = 16;
+      Sfx.roar(); Game.shake = 16; Native.haptic('heavy');
     }
   },
 

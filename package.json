@@ -1,0 +1,24 @@
+{
+  "name": "cult-of-the-cow",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Cult of the Cow: a mooving parody. Mobile game built with HTML5 canvas, packaged with Capacitor.",
+  "scripts": {
+    "build": "node scripts/build-web.mjs",
+    "serve": "npx http-server . -c-1",
+    "sync": "npm run build && npx cap sync",
+    "android": "npm run sync && npx cap open android",
+    "ios": "npm run sync && npx cap open ios",
+    "apk": "npm run sync && cd android && ./gradlew assembleDebug"
+  },
+  "dependencies": {
+    "@capacitor/android": "^8.5.3",
+    "@capacitor/app": "^8.1.2",
+    "@capacitor/core": "^8.5.3",
+    "@capacitor/haptics": "^8.0.2",
+    "@capacitor/ios": "^8.5.3"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^8.5.3"
+  }
+}

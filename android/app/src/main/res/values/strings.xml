@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Cult of the Cow</string>
+    <string name="title_activity_main">Cult of the Cow</string>
+    <string name="package_name">com.cultofthecow.app</string>
+    <string name="custom_url_scheme">com.cultofthecow.app</string>
+</resources>

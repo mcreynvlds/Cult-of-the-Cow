@@ -1,0 +1,15 @@
+{
+  "appId": "com.cultofthecow.app",
+  "appName": "Cult of the Cow",
+  "webDir": "www",
+  "backgroundColor": "#120810",
+  "android": {
+    "backgroundColor": "#120810",
+    "allowMixedContent": false
+  },
+  "ios": {
+    "backgroundColor": "#120810",
+    "contentInset": "never",
+    "scrollEnabled": false
+  }
+}

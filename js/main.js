@@ -67,6 +67,7 @@ const Game = {
 
   init() {
     Sfx.init();
+    Native.init();
     this.canvas = document.getElementById('game');
     this.ctx = this.canvas.getContext('2d');
     Input.init();
@@ -80,7 +81,7 @@ const Game = {
     S = loadGame() || newState();
     this.setScene(TitleScene);
     requestAnimationFrame((ts) => { this.last = ts; this.loop(ts); });
-    if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+    if (!Native.isNative && 'serviceWorker' in navigator && location.protocol.startsWith('http')) {
       navigator.serviceWorker.register('sw.js').catch(() => {});
     }
   },
@@ -198,6 +199,7 @@ const Game = {
       { icon: '▶️', label: 'Resume', cls: 'primary', action: () => UI.closeMenu() },
       { icon: '🐾', label: 'Cult Roster', sub: `${S.followers.length} followers`, action: () => this.roster() },
       { icon: Sfx.muted ? '🔇' : '🔊', label: `Sound: ${Sfx.muted ? 'Off' : 'On'}`, action: () => { Sfx.setMuted(!Sfx.muted); this.pauseMenu(); } },
+      { icon: '📳', label: `Vibration: ${Native.vibrate ? 'On' : 'Off'}`, action: () => { Native.setVibrate(!Native.vibrate); this.pauseMenu(); } },
       { icon: '❓', label: 'How to Play', action: () => UI.menu({ title: 'How to Play', html: HOW_TO_PLAY, options: [{ icon: '↩️', label: 'Back', action: () => this.pauseMenu() }] }) },
     ];
     if (sc === Crusade && !Crusade.over) {

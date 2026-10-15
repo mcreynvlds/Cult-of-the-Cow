@@ -1,0 +1,93 @@
+name: Android app
+
+on:
+  push:
+    branches: [main, master, 'claude/**']
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: android-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      COTC_VERSION_CODE: ${{ github.run_number }}
+      KEYSTORE_B64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - uses: android-actions/setup-android@v3
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Bundle web game into the native project
+        run: npm run build && npx cap sync android
+
+      - name: Build debug APK (installable)
+        working-directory: android
+        run: chmod +x gradlew && ./gradlew assembleDebug --no-daemon --stacktrace
+
+      # Optional store build. Add repo secrets ANDROID_KEYSTORE_BASE64, ANDROID_KEYSTORE_PASSWORD,
+      # ANDROID_KEY_ALIAS and ANDROID_KEY_PASSWORD to get a signed release APK + Play Store bundle.
+      - name: Build signed release (APK + AAB)
+        if: env.KEYSTORE_B64 != ''
+        working-directory: android
+        env:
+          COTC_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          COTC_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          COTC_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          echo "$KEYSTORE_B64" | base64 -d > "$RUNNER_TEMP/release.jks"
+          export COTC_KEYSTORE_PATH="$RUNNER_TEMP/release.jks"
+          ./gradlew assembleRelease bundleRelease --no-daemon --stacktrace
+
+      - name: Collect outputs
+        run: |
+          mkdir -p dist
+          cp android/app/build/outputs/apk/debug/app-debug.apk dist/CultOfTheCow.apk
+          if [ -f android/app/build/outputs/apk/release/app-release.apk ]; then cp android/app/build/outputs/apk/release/app-release.apk dist/CultOfTheCow-release.apk; fi
+          if [ -f android/app/build/outputs/bundle/release/app-release.aab ]; then cp android/app/build/outputs/bundle/release/app-release.aab dist/CultOfTheCow-release.aab; fi
+          ls -la dist
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cult-of-the-cow-android
+          path: dist/*
+
+      # A stable download link: Releases → "android-latest" always holds the newest APK.
+      - name: Move android-latest tag to this commit
+        if: github.event_name != 'pull_request'
+        run: |
+          git tag -f android-latest
+          git push -f origin android-latest
+
+      - name: Publish APK to the android-latest release
+        if: github.event_name != 'pull_request'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: android-latest
+          name: Cult of the Cow (latest Android build)
+          prerelease: true
+          make_latest: false
+          files: dist/*
+          body: |
+            Newest Android build of **Cult of the Cow**, built from `${{ github.sha }}` (build ${{ github.run_number }}).
+
+            **To install:** open this page on your Android phone, download `CultOfTheCow.apk`, open it, and allow installing from this source when asked.
