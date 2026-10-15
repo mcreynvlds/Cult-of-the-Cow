@@ -63,6 +63,9 @@ jobs:
           export COTC_KEYSTORE_PATH="$RUNNER_TEMP/release.jks"
           ./gradlew assembleRelease bundleRelease --no-daemon --stacktrace
 
+      - name: Build single-file desktop/browser version
+        run: npm run build:single
+
       - name: Collect outputs
         run: |
           mkdir -p dist
@@ -76,7 +79,7 @@ jobs:
           name: cult-of-the-cow-android
           path: dist/*
 
-      # A stable download link: Releases → "android-latest" always holds the newest APK.
+      # A stable download link: Releases → "android-latest" always holds the newest APK and HTML.
       - name: Move android-latest tag to this commit
         if: github.event_name != 'pull_request'
         run: |
@@ -88,11 +91,13 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: android-latest
-          name: Cult of the Cow (latest Android build)
+          name: Cult of the Cow (latest build)
           prerelease: true
           make_latest: false
           files: dist/*
           body: |
             Newest Android build of **Cult of the Cow**, built from `${{ github.sha }}` (build ${{ github.run_number }}).
 
-            **To install:** open this page on your Android phone, download `CultOfTheCow.apk`, open it, and allow installing from this source when asked.
+            **💻 Computer:** download `CultOfTheCow.html` and double-click it. The whole game is in that one file.
+
+            **📱 Android:** open this page on your phone, download `CultOfTheCow.apk`, open it, and allow installing from this source when asked.

@@ -6,7 +6,7 @@ It's a mobile-first browser game that parodies *Cult of the Lamb*. It's plain HT
 
 ## Play
 
-- **Locally:** open `index.html` in any modern browser, or serve the folder (`npx http-server .`) and open it on your phone over your LAN.
+- **On a computer:** download `CultOfTheCow.html` from the [latest release](https://github.com/mcreynvlds/Cult-of-the-Cow/releases/tag/android-latest) and double-click it. The entire game is in that one file (build it yourself with `npm run build:single`). If you use the source folder instead, unzip it first, then open `index.html`, or serve the folder (`npx http-server .`) and open it on your phone over your LAN.
 - **Install it:** when it's served over HTTPS (GitHub Pages works), use *Add to Home Screen*. It runs fullscreen and works offline through a service worker.
 
 ## 📱 The App (Android & iOS)

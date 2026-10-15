@@ -9,7 +9,8 @@
     "sync": "npm run build && npx cap sync",
     "android": "npm run sync && npx cap open android",
     "ios": "npm run sync && npx cap open ios",
-    "apk": "npm run sync && cd android && ./gradlew assembleDebug"
+    "apk": "npm run sync && cd android && ./gradlew assembleDebug",
+    "build:single": "node scripts/build-single.mjs"
   },
   "dependencies": {
     "@capacitor/android": "^8.5.3",
